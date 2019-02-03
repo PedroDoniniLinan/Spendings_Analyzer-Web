@@ -13,26 +13,48 @@ body {
     margin: auto;
 }
 
-/* ============================     COLORS / FONTS      ============================ */
+/* =================================     COLORS      ================================= */
 
 header, footer {
     background-color: #181918;
+}
+
+.list ul ul {
+    border-top: 0.5px solid #181918;
+    border-bottom: 0.5px solid #181918;
 }
 
 .nav-bar, .home {
     background-color: #535553;
 }
 
-header .brand {
-    color: #334C32;
+.summary {
+    background-color: #616161;
 }
 
-header nav ul li a, .summary ul li, .summary h2 {
+.list ul {
+    background-color: rgb(228, 228, 228);
+}
+
+.list .val {
+    color: rgb(223, 71, 71);
+}
+
+header nav ul li a, .summary ul li, .summary h2,
+.add-title li {
     color: rgb(228, 228, 228);
 }
 
 header nav ul li a:hover:not(.active), nav ul li a.active {
     color: white;
+}
+
+header .brand {
+    color: #334C32;
+}
+
+.summary {
+    border: 1px solid #2E7F2C;
 }
 
 .summary h2 {
@@ -42,6 +64,16 @@ header nav ul li a:hover:not(.active), nav ul li a.active {
 .home h1  {
     color: #2E7F2C;
     border-bottom: 1px solid  #2E7F2C;
+}
+
+/* ================================     FONTS      ================================= */
+
+header .brand, header nav ul li a, .home h1 { 
+    font-family: 'Cairo', sans-serif;
+}
+
+.summary h2, .summary ul li, .add-title li {
+    font-family: 'Play', sans-serif;
 }
 
 /* ================================     HEADER      ================================ */
@@ -55,7 +87,6 @@ header .brand {
     display: block;
     padding: 0 10px;
     
-    font-family: 'Cairo', sans-serif;
     font-size: 28px;
     font-weight: 900;
 
@@ -81,7 +112,6 @@ header nav ul li a {
     display: block;
     padding: 0 10px;
 
-    font-family: 'Cairo', sans-serif;
     font-size: 16px;
     font-weight: 200;
 
@@ -109,7 +139,6 @@ nav ul li a.active {
     margin: 0 10px;
     margin-bottom: 30px;
     
-    font-family: 'Cairo', sans-serif;
     font-size: 26px;
     font-weight: 400;
 }
@@ -119,7 +148,6 @@ nav ul li a.active {
     margin-bottom: 15px;
     padding: 5px 10px;
 
-    font-family: 'Play', sans-serif;
     font-size: 18px;
 
 }
@@ -127,13 +155,9 @@ nav ul li a.active {
 .summary {
     padding: 10px;
     margin: 0 20px;
-
-    /* background-color: rgba(172, 172, 172, 0.37); */
-    /* box-shadow: 2px 2px 5px gray;   */
 }
 
 .summary ul li {
-    font-family: 'Play', sans-serif;
     font-size: 16px;
     font-weight: 200;
 
@@ -143,6 +167,50 @@ nav ul li a.active {
 .summary ul li .val {
     color: rgb(122, 170, 104);
     float: right;
+}
+
+/* ================================     LIST      ================================= */
+
+.add-form, .list ul.tab {
+    margin: 0 10px;
+}
+
+.add-form #name {
+    height: 15px;
+    width: 40%;
+}
+
+.add-form #date {
+    height: 15px;
+    width: 25%;
+    font-size: 12px;
+}
+
+.add-form #val {
+    height: 15px;
+    width: 29%;
+}
+
+.add-form #submit {
+    margin: 5px 0;
+    padding: 2px 5px;
+}
+
+.list ul ul .name {
+    width: 40%;
+}
+
+.list ul ul .date {
+    width: 29%;
+}
+
+.list ul ul .val {
+    width: 29.2%;
+}
+
+.list ul ul li {
+    display: inline-block;
+    text-align: center;
 }
 
 /* ================================     FOOTER      ================================ */
