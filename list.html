@@ -24,7 +24,7 @@
                         <ul>
                             <li><a href="index.html">Home</a></li>
                             <li><a href="list.html"class="active">Spendings list</a></li>
-                            <li><a href="index.html">Analysis</a></li>
+                            <li><a href="analysis.html">Analysis</a></li>
                             <li><a href="index.html">About</a></li>
                         </ul>
                     </nav>
@@ -36,10 +36,15 @@
                 <article class="home">
                     <div class="add">
                         <h1>Add new spending</h1>
+                        <ul class="add-title">
+                            <li class="name">Name</li>
+                            <li class="date">Date</li>
+                            <li class="val">Value</li>
+                        </ul>
                         <form class="add-form">
-                            <input type="text" id="name" name="name" placeholder="Name">
-                            <input type="date" id="date" name="date" placeholder="Date">
-                            <input type="number" id="val" name="val" placeholder="Value">
+                            <input class="round name" type="text" id="name" name="name">
+                            <input class="round date" type="date" id="date" name="date">
+                            <input class="round val" type="text" id="val" name="val"><br>
                             <input type="submit" id="submit" value="Add">
                         </form>
                     </div>
@@ -61,6 +66,5 @@
                 </article>
             </div>
         </main>
-        <footer></footer>
     </body>
 </html>

@@ -4,6 +4,10 @@
     list-style: none;
 }
 
+html {
+    min-height: 100%;
+}
+
 body {
     background-color: #313331;
 }
@@ -11,6 +15,7 @@ body {
 .wrapper {
     width: 60%;
     margin: auto;
+    flex: 1 0 auto;
 }
 
 /* =================================     COLORS      ================================= */
@@ -62,7 +67,7 @@ header .brand {
 }
 
 .home h1  {
-    color: #2E7F2C;
+    color: rgb(37, 175, 34);
     border-bottom: 1px solid  #2E7F2C;
 }
 
@@ -129,9 +134,10 @@ nav ul li a.active {
 /* ================================     MAIN      ================================ */
 
 .home {
-    height: 300px;
+    height: fit-content;
     margin: 10px auto;
     padding: 10px;
+    padding-bottom: 20px;
     box-shadow: 5px 2px 5px #111;  
 }
 
@@ -149,7 +155,6 @@ nav ul li a.active {
     padding: 5px 10px;
 
     font-size: 18px;
-
 }
 
 .summary {
@@ -175,23 +180,42 @@ nav ul li a.active {
     margin: 0 10px;
 }
 
-.add-form #name {
-    height: 15px;
+.round {
+
+    border-radius: 4px;
+    border: 1px solid gray;
+}
+
+.add ul {
+    margin: 0 10px;
+}
+
+.add ul li {
+    display: inline-block;
+    padding: 0 1px;
+}
+
+.add .name {
+    height: 18px;
     width: 40%;
 }
 
-.add-form #date {
-    height: 15px;
+.add .date {
+    height: 18px;
     width: 25%;
+}
+
+.add .add-form .date {
+    text-align: center;
     font-size: 12px;
 }
 
-.add-form #val {
-    height: 15px;
+.add .val {
+    height: 18px;
     width: 29%;
 }
 
-.add-form #submit {
+.add #submit {
     margin: 5px 0;
     padding: 2px 5px;
 }
@@ -213,9 +237,12 @@ nav ul li a.active {
     text-align: center;
 }
 
-/* ================================     FOOTER      ================================ */
+/* ==============================     ANALYSIS      =============================== */
 
-footer {
+canvas {
     width: 100%;
-    height: 30px;
+    height: 300px;
+
+    border-radius: 4px;
+    background-color: #afafaf;
 }
