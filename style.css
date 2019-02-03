@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+body {
+    background-color: #313331;
+}
+
+.wrapper {
+    width: 60%;
+    margin: auto;
+}
+
+/* ============================     COLORS / FONTS      ============================ */
+
+header, footer {
+    background-color: #181918;
+}
+
+.nav-bar, .home {
+    background-color: #535553;
+}
+
+header .brand {
+    color: #334C32;
+}
+
+header nav ul li a, .summary ul li, .summary h2 {
+    color: rgb(228, 228, 228);
+}
+
+header nav ul li a:hover:not(.active), nav ul li a.active {
+    color: white;
+}
+
+.summary h2 {
+    background-color: #2E7F2C;
+}
+
+.home h1  {
+    color: #2E7F2C;
+    border-bottom: 1px solid  #2E7F2C;
+}
+
+/* ================================     HEADER      ================================ */
+
+header {
+    width: 100%;
+    height: 85px;
+}
+
+header .brand {
+    display: block;
+    padding: 0 10px;
+    
+    font-family: 'Cairo', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+
+    text-decoration: none;
+}
+
+.nav-bar {
+    width: 100%;
+    height: 35px;
+}
+
+header nav ul {
+    margin: 0 auto;
+}
+
+header nav ul li {
+    display: inline-block;
+
+    margin: 0 5px;
+}
+
+header nav ul li a {
+    display: block;
+    padding: 0 10px;
+
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    font-weight: 200;
+
+    text-decoration: none;
+}
+
+header nav ul li a:hover:not(.active){
+    border-bottom: 1px solid white;
+}
+
+nav ul li a.active {
+    border-bottom: 3px solid white;
+}
+
+/* ================================     MAIN      ================================ */
+
+.home {
+    height: 300px;
+    margin: 10px auto;
+    padding: 10px;
+    box-shadow: 5px 2px 5px #111;  
+}
+
+.home h1 {
+    margin: 0 10px;
+    margin-bottom: 30px;
+    
+    font-family: 'Cairo', sans-serif;
+    font-size: 26px;
+    font-weight: 400;
+}
+
+.summary h2 {
+    width: fit-content;
+    margin-bottom: 15px;
+    padding: 5px 10px;
+
+    font-family: 'Play', sans-serif;
+    font-size: 18px;
+
+}
+
+.summary {
+    padding: 10px;
+    margin: 0 20px;
+
+    /* background-color: rgba(172, 172, 172, 0.37); */
+    /* box-shadow: 2px 2px 5px gray;   */
+}
+
+.summary ul li {
+    font-family: 'Play', sans-serif;
+    font-size: 16px;
+    font-weight: 200;
+
+    line-height: 1.8;
+}
+
+.summary ul li .val {
+    color: rgb(122, 170, 104);
+    float: right;
+}
+
+/* ================================     FOOTER      ================================ */
+
+footer {
+    width: 100%;
+    height: 30px;
+}
