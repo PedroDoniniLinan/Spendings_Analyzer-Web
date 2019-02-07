@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width">
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-        <script src="main.js"></script>
+        <script src="main.js" defer></script>
         
         <title>MyWebFinance</title>
 
@@ -34,7 +34,7 @@
         <main>
             <div class="wrapper">
                 <article class="home">
-                    <div class="add">
+                    <!-- <div class="add">
                         <h1>Add new spending</h1>
                         <ul class="add-title">
                             <li class="name">Name</li>
@@ -47,21 +47,36 @@
                             <input class="round val" type="text" id="val" name="val"><br>
                             <input type="submit" id="submit" value="Add">
                         </form>
-                    </div>
+                    </div> -->
                     <div class="list">
                         <h1>List of spendings</h1>
-                        <ul class="tab">
-                            <ul>
-                                <li class="name">Mercado</li>
-                                <li class="date">03/04</li>
-                                <li class="val">39,39</li>
-                            </ul>
-                            <ul>
-                                <li class="name">Voo</li>
-                                <li class="date">05/04</li>
-                                <li class="val">173,54</li>
-                            </ul>
-                        </ul>
+
+                        <div class="tab">
+                            <table>
+                                <tr>
+                                    <td contenteditable class="name">Mercado</td>
+                                    <td contenteditable class="date">03/04</td>
+                                    <td contenteditable class="val">39.39</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable class="name">Voo</td>
+                                    <td contenteditable class="date">03/05</td>
+                                    <td contenteditable class="val">173.59</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="bkg" id="add">
+                            <div class="plus">
+                                <div class="img"></div> 
+                                <p>Add new item</p>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button class="button round" id="save-button">Save</button>
+                            <button class="button round" id="sel-button">Select items</button>
+                            <button class="button round" id="del-sel">Delete selected</button>
+                            <button class="button round" id="del-empty">Delete empty</button>
+                        </div>
                     </div>
                 </article>
             </div>
