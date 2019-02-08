@@ -48,8 +48,25 @@ header, footer {
     background-color: #2E7F2C;
 }
 
+.list .button:hover {
+    background-color: rgb(25, 85, 24);
+    border: 1px solid rgb(25, 85, 24);
+
+}
+
+.list #save-button  {
+    color: #111;
+    background-color: white;
+    border: 1px solid rgb(255, 255, 255);
+}
+
+.list #save-button:hover {
+    background-color: rgb(168, 168, 168);
+    border: 1px solid rgb(168, 168, 168);
+}
+
 header nav ul li a, .summary ul li, .summary h2,
-.list td, .list .button, .list .plus p {
+.list td, .list .button:not(#save-button), .list .plus p {
     color: rgb(228, 228, 228);
 }
 
@@ -76,12 +93,6 @@ header .brand {
 
 .summary, .list .button   {
     border: 1px solid #2E7F2C;
-}
-
-.list .button:hover {
-    background-color: rgb(25, 85, 24);
-    border: 1px solid rgb(25, 85, 24);
-
 }
 
 /* ================================     FONTS      ================================= */
@@ -190,17 +201,32 @@ nav ul li a.active {
 
 /* ================================     LIST      ================================= */
 
+.list h1 {
+    margin-bottom: 10px;
+}
+
 .list ul.tab {
     margin: 0 10px;
 }
 
 .list table {
     margin: 10px;
-    width: 97%;
+    min-width: 97%;
+    max-width: 97%;
+    table-layout:fixed;
+}
+
+.list td.check {
+    display: none;
+}
+
+.list td.check input {
+    margin: auto;
 }
 
 .list tr .name {
     width: 40%;
+    max-width: 40%;
 }
 
 .list tr .date {
@@ -213,6 +239,7 @@ nav ul li a.active {
 
 .list td {
     text-align: center;
+    word-wrap: break-word;
 }
 
 .list .bkg {
@@ -246,9 +273,15 @@ nav ul li a.active {
     display: inline-block;
 }
 
+.list .buttons {
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
 .list .button  {
-    padding:10px;
-    margin: 10px;
+    padding:2px;
+    margin-bottom: 10px;
+    margin-top: 0;
     font-size: 16px;
 }
 
