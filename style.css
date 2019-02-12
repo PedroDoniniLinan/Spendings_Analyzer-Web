@@ -92,7 +92,7 @@ header .brand {
 }
 
 .summary, .list .button   {
-    border: 1px solid #2E7F2C;
+    border: 1px solid rgb(46, 127, 44);
 }
 
 /* ================================     FONTS      ================================= */
@@ -290,5 +290,5 @@ nav ul li a.active {
 canvas {
 
     border-radius: 4px;
-    background-color: #afafaf;
+    background-color: #e9e9e9;
 }

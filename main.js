@@ -8,7 +8,7 @@ const attrIndex = ['name', 'date', 'val'];
 var list;
 
 
-function listItem(name='', date='', val='', isChecked=false) {
+function ListItem(name='', date='', val='', isChecked=false) {
     this.name = name;
     this.date = date;
     this.val = val;
@@ -57,7 +57,7 @@ var getListArray = () => {
         let date = $(this).children('.date').text();
         let val = $(this).children('.val').text();
         let isChecked = $(this).children('.check').children().prop('checked');
-        var item = new listItem(name, date, val, isChecked);
+        var item = new ListItem(name, date, val, isChecked);
         list.push(item);
     })
     return list;
@@ -86,14 +86,14 @@ var storeListArray = () => {
     localStorage.listId = list.length;
 }
 
-var isList = ($("a[class=active]").text() === "Spendings list");
+var isList = ($("a[class=active]").text() === "Financial list");
 if(isList) {
     list = loadListArray();
     updateListHTML(list);
 
     var add = document.getElementById("add");
     add.onclick = () => {
-        var newItem = new listItem();
+        var newItem = new ListItem();
         list.unshift(newItem);
         insertListItemHTML(newItem);
     }
@@ -149,4 +149,108 @@ if(isList) {
         isSelectable = false;
         areSelected = false;
     }
+}
+
+/* ============================     ANALYSIS      =============================== */
+
+function Dataset(data, label='', color=[46, 127, 44]) {
+    this.data = data;
+    this.label = label;
+    this.backgroundColor = 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.5)';
+    this.borderColor = 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 1)';
+    this.borderWidth = 1;
+}
+
+var plotAnalysis = (datasets, label, axisStep) => {
+    var ctx = document.getElementById("analysis-graphic");
+    ctx.setAttribute("height", "200px");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: label,
+            datasets: datasets
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true,
+                        stepSize: axisStep
+                    }
+                }]
+            }
+        }
+    });
+}
+
+var formatDate = (date) => {
+    var splitDate = date.split('/').map(item => parseInt(item));
+    var month;
+    switch(splitDate[1]) {
+        case 1:
+            month = 'Jan';
+            break;
+        case 2:
+            month = 'Fev';
+            break;
+        case 3:
+            month = 'Mar';
+            break;
+        case 4:
+            month = 'Apr';
+            break;
+        case 5:
+            month = 'May';
+            break;
+        case 6:
+            month = 'Jun';
+            break;
+        case 7:
+            month = 'Jul';
+            break;
+        case 8:
+            month = 'Aug';
+            break;
+        case 9:
+            month = 'Sep';
+            break;
+        case 10:
+            month = 'Oct';
+            break;
+        case 11:
+            month = 'Nov';
+            break;
+        case 12:
+            month = 'Dec';
+            break;
+        default:
+            break;
+    }
+    var year = splitDate[2];
+    return month + '/' + year;
+}
+
+var mapListToData = () => {
+    var list = loadListArray();
+    console.log(list);
+    var rawDataset = list.map(item => [formatDate(item.date), parseInt(item.val)]).reduce((rawData, data) => {
+        if (!(data[0] in rawData)) {
+            rawData[data[0]] = data[1];
+        } else {
+            rawData[data[0]] += data[1];
+        }
+        return rawData;
+    }, {});
+    console.log('rawDataset');
+    console.log(rawDataset);
+    return rawDataset;
+}
+
+var isAnalysis = ($("a[class=active]").text() === "Analysis");
+if(isAnalysis) {
+    var exampleData = new Dataset([1, 2, 3, 7, 2, 1], 'Total spent');
+    // plotAnalysis([exampleData], ['Nov/18', 'Dec/18', 'Jan/19', 'Fev/19', 'Mar/19', 'Abr/19']);
+    var data = mapListToData();
+    var monthData = new Dataset(Object.values(data), 'Total spent');
+    plotAnalysis([monthData], Object.keys(data));
 }
