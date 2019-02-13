@@ -230,27 +230,42 @@ var formatDate = (date) => {
     return month + '/' + year;
 }
 
+var accumulateByKey = (accumulated, data) => {
+    if (!(data[0] in accumulated)) {
+        accumulated[data[0]] = data[1];
+    } else {
+        accumulated[data[0]] += data[1];
+    }
+    return accumulated;
+}
+
+var createMissingKeys = (keys, obj) => {
+    for(k of keys) {
+        if(!(k in obj)) {
+            obj[k] = 0;
+        }
+    }
+    return obj;
+}
+
 var mapListToData = () => {
     var list = loadListArray();
-    console.log(list);
-    var rawDataset = list.map(item => [formatDate(item.date), parseInt(item.val)]).reduce((rawData, data) => {
-        if (!(data[0] in rawData)) {
-            rawData[data[0]] = data[1];
-        } else {
-            rawData[data[0]] += data[1];
-        }
-        return rawData;
-    }, {});
-    console.log('rawDataset');
-    console.log(rawDataset);
-    return rawDataset;
+    var pairs = list.map(item => [formatDate(item.date), parseInt(item.val)]);
+    var months = pairs.map(kv => kv[0]).reduce((list, item) => {
+        list.push(item);
+        return list;
+    }, []);
+    var monthSet = new Set(months);
+    var spendings = createMissingKeys(monthSet, pairs.filter(pair => pair[1] < 0).map(item => [item[0], Math.abs(item[1])]).reduce(accumulateByKey, {}));
+    var income = createMissingKeys(monthSet, pairs.filter(pair => pair[1] > 0).reduce(accumulateByKey, {}));
+
+    return {spendings: Object.values(spendings), income: Object.values(income), months: Array.from(monthSet)};
 }
 
 var isAnalysis = ($("a[class=active]").text() === "Analysis");
 if(isAnalysis) {
-    var exampleData = new Dataset([1, 2, 3, 7, 2, 1], 'Total spent');
-    // plotAnalysis([exampleData], ['Nov/18', 'Dec/18', 'Jan/19', 'Fev/19', 'Mar/19', 'Abr/19']);
     var data = mapListToData();
-    var monthData = new Dataset(Object.values(data), 'Total spent');
-    plotAnalysis([monthData], Object.keys(data));
+    var monthSpendings = new Dataset(data.spendings, 'Total spent',[255, 50, 50]);
+    var monthIncome = new Dataset(data.income, 'Total earned');
+    plotAnalysis([monthSpendings, monthIncome], data.months);
 }
