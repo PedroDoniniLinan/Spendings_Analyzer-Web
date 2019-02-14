@@ -183,6 +183,7 @@ var plotAnalysis = (datasets, label, axisStep) => {
     });
 }
 
+
 var parseDate = (dateString, precision=1) => {
     let date = dateString.split('/').map(item => parseInt(item));
     switch(precision) {
@@ -202,7 +203,7 @@ var monthToString = (month) => {
         case 1:
             return 'Jan';            
         case 2:
-            return 'Fev';
+            return 'Feb';
         case 3:
             return 'Mar';
         case 4:
@@ -248,6 +249,7 @@ var stringifyDate = (date, precision=1) => {
     }
 }
 
+
 var generateKV = (list, key) => {
     if(key === "month") {
         return list.map(item => [parseDate(item.date), parseInt(item.val)]);
@@ -290,9 +292,6 @@ if(isAnalysis) {
     var list = loadListArray();
     var kv = generateKV(list, "month");
     var data = generatePlotData(kv, "month");
-    console.log(data.spendings);
-    console.log(data.income);
-    console.log(data.keys);
     var spendingsSet = new Dataset(data.spendings, 'Total spent',[255, 50, 50]);
     var incomeSet = new Dataset(data.income, 'Total earned');
     plotAnalysis([spendingsSet, incomeSet], data.keys);
@@ -300,7 +299,67 @@ if(isAnalysis) {
 
 /* ============================     HOME      =============================== */
 
+var monthToInt = (month) => {
+    switch(month) {
+        case 'Jan':
+            return 1;            
+        case 'Feb':
+            return 2;
+        case 'Mar':
+            return 3;
+        case 'Apr':
+            return 4;
+        case 'May':
+            return 5;
+        case 'Jun':
+            return 6;
+        case 'Jul':
+            return 7;
+        case 'Aug':
+            return 8;
+        case 'Sep':
+            return 9;
+        case 'Oct':
+            return 10;
+        case 'Nov':
+            return 11;
+        case 'Dec':
+            return 12;
+        default:
+            return 0;
+    }
+}
+
+var getToday = (precision=1) => {
+    var today = Date(Date.now()).toString().split(" ");
+    let y = parseInt(today[3]) - 2000;
+    let m = monthToInt(today[1]);
+    let d = parseInt(today[2]);
+    switch(precision) {
+        case 0:
+            return y;
+        case 1:
+            return y * 100 + m;
+        case 2:
+            return (y * 100 + m) * 100 + d;
+        default:
+            return 0;
+    }
+}
+
 var isHome = ($("a[class=active]").text() === "Home");
 if(isHome) {
+    var list = loadListArray();
+    var current = list.reduce((sum, item) => sum += parseInt(item.val), 0);
+    var today = getToday();
+    var spendings = generateKV(list,"month").filter(kv => kv[1] < 0);
+    var monthSpent = spendings
+    .filter(kv => kv[0] == today)
+    .reduce((sum, kv) => sum += Math.abs(kv[1]), 0);
+    var months = new Set(spendings.map(kv => kv[0]));
+    var monthAvg = spendings.reduce((sum, kv) => sum += Math.abs(kv[1]), 0) / months.size;
 
+    $("#current").text(current);
+    $("#month-spent").text(monthSpent);
+    $("#month-avg").text(monthAvg);
 }
