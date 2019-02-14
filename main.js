@@ -183,54 +183,100 @@ var plotAnalysis = (datasets, label, axisStep) => {
     });
 }
 
-var formatDate = (date) => {
-    var splitDate = date.split('/').map(item => parseInt(item));
-    var month;
-    switch(splitDate[1]) {
+var parseDate = (dateString, precision=1) => {
+    let date = dateString.split('/').map(item => parseInt(item));
+    switch(precision) {
+        case 0:
+            return date[2];
         case 1:
-            month = 'Jan';
-            break;
+            return date[2] * 100 + date[1];
         case 2:
-            month = 'Fev';
-            break;
-        case 3:
-            month = 'Mar';
-            break;
-        case 4:
-            month = 'Apr';
-            break;
-        case 5:
-            month = 'May';
-            break;
-        case 6:
-            month = 'Jun';
-            break;
-        case 7:
-            month = 'Jul';
-            break;
-        case 8:
-            month = 'Aug';
-            break;
-        case 9:
-            month = 'Sep';
-            break;
-        case 10:
-            month = 'Oct';
-            break;
-        case 11:
-            month = 'Nov';
-            break;
-        case 12:
-            month = 'Dec';
-            break;
+            return (date[2] * 100 + date[1]) * 100 + date[0];
         default:
-            break;
+            return 0;
     }
-    var year = splitDate[2];
-    return month + '/' + year;
 }
 
-var accumulateByKey = (accumulated, data) => {
+var monthToString = (month) => {
+    switch(month) {
+        case 1:
+            return 'Jan';            
+        case 2:
+            return 'Fev';
+        case 3:
+            return 'Mar';
+        case 4:
+            return 'Apr';
+        case 5:
+            return 'May';
+        case 6:
+            return 'Jun';
+        case 7:
+            return 'Jul';
+        case 8:
+            return 'Aug';
+        case 9:
+            return 'Sep';
+        case 10:
+            return 'Oct';
+        case 11:
+            return 'Nov';
+        case 12:
+            return 'Dec';
+        default:
+            return 0;
+    }
+}
+
+var stringifyDate = (date, precision=1) => {
+    let y, m, d;
+    switch(precision) {
+        case 0:
+            return date;
+        case 1:
+            y = parseInt(date / 100);
+            m = date - y * 100;
+            return monthToString(m) + "/" + y;
+        case 2:
+            y = parseInt(date / 10000);
+            aux = date - y * 10000;
+            m = parseInt(aux / 100);
+            d = aux - m * 100;
+            return d + "/" + monthToString(m) + "/" + y;
+        default:
+            return 0;
+    }
+}
+
+var generateKV = (list, key) => {
+    if(key === "month") {
+        return list.map(item => [parseDate(item.date), parseInt(item.val)]);
+    }
+    return list.map(item => [item[key], parseInt(item.val)]);
+}
+
+var generatePlotData = (data, option='') => {
+    var spendings = data
+    .map(kv => kv[1] < 0 ? [kv[0], Math.abs(kv[1])] : [kv[0], 0])
+    .sort((a, b) => a[0] - b[0])
+    .reduce(reduceByKey, {});
+    
+    var income = data
+    .map(kv => kv[1] >= 0 ? kv : [kv[0], 0])
+    .sort((a, b) => a[0] - b[0])
+    .reduce(reduceByKey, {});
+    
+    var keys = Object.keys(spendings);
+
+    if(option === "month") {
+        keys = keys.map(k => stringifyDate(k));
+        console.log(keys);
+    }
+    
+    return {spendings: Object.values(spendings), income: Object.values(income), keys: keys};
+}
+
+var reduceByKey = (accumulated, data) => {
     if (!(data[0] in accumulated)) {
         accumulated[data[0]] = data[1];
     } else {
@@ -239,33 +285,22 @@ var accumulateByKey = (accumulated, data) => {
     return accumulated;
 }
 
-var createMissingKeys = (keys, obj) => {
-    for(k of keys) {
-        if(!(k in obj)) {
-            obj[k] = 0;
-        }
-    }
-    return obj;
-}
-
-var mapListToData = () => {
-    var list = loadListArray();
-    var pairs = list.map(item => [formatDate(item.date), parseInt(item.val)]);
-    var months = pairs.map(kv => kv[0]).reduce((list, item) => {
-        list.push(item);
-        return list;
-    }, []);
-    var monthSet = new Set(months);
-    var spendings = createMissingKeys(monthSet, pairs.filter(pair => pair[1] < 0).map(item => [item[0], Math.abs(item[1])]).reduce(accumulateByKey, {}));
-    var income = createMissingKeys(monthSet, pairs.filter(pair => pair[1] > 0).reduce(accumulateByKey, {}));
-
-    return {spendings: Object.values(spendings), income: Object.values(income), months: Array.from(monthSet)};
-}
-
 var isAnalysis = ($("a[class=active]").text() === "Analysis");
 if(isAnalysis) {
-    var data = mapListToData();
-    var monthSpendings = new Dataset(data.spendings, 'Total spent',[255, 50, 50]);
-    var monthIncome = new Dataset(data.income, 'Total earned');
-    plotAnalysis([monthSpendings, monthIncome], data.months);
+    var list = loadListArray();
+    var kv = generateKV(list, "month");
+    var data = generatePlotData(kv, "month");
+    console.log(data.spendings);
+    console.log(data.income);
+    console.log(data.keys);
+    var spendingsSet = new Dataset(data.spendings, 'Total spent',[255, 50, 50]);
+    var incomeSet = new Dataset(data.income, 'Total earned');
+    plotAnalysis([spendingsSet, incomeSet], data.keys);
+}
+
+/* ============================     HOME      =============================== */
+
+var isHome = ($("a[class=active]").text() === "Home");
+if(isHome) {
+
 }
