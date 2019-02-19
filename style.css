@@ -70,7 +70,7 @@ header nav ul li a, .summary ul li, .summary h2,
     color: rgb(228, 228, 228);
 }
 
-header nav ul li a:hover:not(.active), nav ul li a.active {
+header nav ul li a:hover:not(.active), nav ul li a.active, .list ul li {
     color: white;
 }
 
@@ -102,7 +102,7 @@ header .brand, header nav ul li a, .home h1 {
 }
 
 .summary h2, .summary ul li, .list .button,
-.list td, .list .plus p {
+.list td, .list .plus p , .list ul li{
     font-family: 'Play', sans-serif;
 }
 
@@ -205,12 +205,28 @@ nav ul li a.active {
     margin-bottom: 10px;
 }
 
-.list ul.tab {
+.list ul .arrows {
+    /* float: left; */
+    width: 18px;
+    height: 18px;
+    background-image: url(images/arrow.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.list ul {
     margin: 0 10px;
+    margin-top: 15px;
+}
+
+.list ul li {
+    display: inline-block;
+    /* text-align: center; */
 }
 
 .list table {
     margin: 10px;
+    margin-top: 0;
     min-width: 97%;
     max-width: 97%;
     table-layout:fixed;
@@ -224,16 +240,16 @@ nav ul li a.active {
     margin: auto;
 }
 
-.list tr .name {
+.list .name {
     width: 40%;
     max-width: 40%;
 }
 
-.list tr .date {
+.list .date {
     width: 29%;
 }
 
-.list tr .val {
+.list .val {
     width: 29.2%;
 }
 
@@ -255,6 +271,7 @@ nav ul li a.active {
     height: 20px;
 }
 
+
 .list .plus .img {
     float: left;
     width: 12%;
@@ -266,6 +283,23 @@ nav ul li a.active {
 
 .list .plus p {
     text-align: center;
+    height: 20px;
+}
+
+.list .arrow {
+    display: inline-block;
+}
+
+.list .arrow .arrows {
+    background-image: url(images/arrow.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.list .arrow  {
+    margin: auto;
+    text-align: center;
+    width: 100%;
     height: 20px;
 }
 
