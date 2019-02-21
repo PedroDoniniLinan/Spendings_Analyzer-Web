@@ -106,7 +106,7 @@ var sortByDate = (list, order=1) => list.sort((a, b) => order * (parseDate(a.dat
 
 var sortByVal = (list, order=1) => list.sort((a, b) => order * (parseInt(a.val) - parseInt(b.val)));
 
-var isList = ($("a[class=active]").text() === "Financial list");
+var isList = ($("a[class=active]").text() === "List");
 if(isList) {
     list = loadListArray();
     updateListHTML(list);
@@ -364,7 +364,7 @@ var monthToInt = (month) => {
 
 var getToday = (precision=1) => {
     var today = Date(Date.now()).toString().split(" ");
-    let y = parseInt(today[3]) - 2000;
+    let y = parseInt(today[3]);
     let m = monthToInt(today[1]);
     let d = parseInt(today[2]);
     switch(precision) {
@@ -389,7 +389,7 @@ if(isHome) {
     .filter(kv => kv[0] == today)
     .reduce((sum, kv) => sum += Math.abs(kv[1]), 0);
     var months = new Set(spendings.map(kv => kv[0]));
-    var monthAvg = spendings.reduce((sum, kv) => sum += Math.abs(kv[1]), 0) / months.size;
+    var monthAvg = Math.round(spendings.reduce((sum, kv) => sum += Math.abs(kv[1]), 0) / months.size);
 
     $("#current").text(current);
     $("#month-spent").text(monthSpent);
