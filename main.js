@@ -7,7 +7,6 @@ const numberOfAttr = 3;
 const attrIndex = ['name', 'date', 'val'];
 var list;
 
-
 function ListItem(name='', date='', val='', isChecked=false) {
     this.name = name;
     this.date = date;
@@ -46,6 +45,7 @@ var makeListItemHTML = (item, option) => {
 var updateListHTML = (newList) => {
     $("table").remove();
     $(".tab").append($("<table>"));
+
     newList.map(pushListItemHTML);
 }
 
@@ -85,6 +85,26 @@ var storeListArray = () => {
     }
     localStorage.listId = list.length;
 }
+
+var parseDate = (dateString, precision=1) => {
+    let date = dateString.split('/').map(item => parseInt(item));
+    switch(precision) {
+        case 0:
+            return date[2];
+        case 1:
+            return date[2] * 100 + date[1];
+        case 2:
+            return (date[2] * 100 + date[1]) * 100 + date[0];
+        default:
+            return 0;
+    }
+}
+
+var sortByName = (list, order=1) => list.sort((a, b) => order * a.name.localeCompare(b.name));
+
+var sortByDate = (list, order=1) => list.sort((a, b) => order * (parseDate(a.date, 2) - parseDate(b.date, 2))); 
+
+var sortByVal = (list, order=1) => list.sort((a, b) => order * (parseInt(a.val) - parseInt(b.val)));
 
 var isList = ($("a[class=active]").text() === "Financial list");
 if(isList) {
@@ -149,6 +169,32 @@ if(isList) {
         isSelectable = false;
         areSelected = false;
     }
+
+    var order = 1;
+    var sortName = document.getElementById("name-sort");
+    sortName.onclick = () => {
+        list = getListArray();
+        list = sortByName(list, order);
+        order = -order;
+        updateListHTML(list);
+    }
+
+    var sortDate = document.getElementById("date-sort");
+    sortDate.onclick = () => {
+        list = getListArray();
+        list = sortByDate(list, order);
+        order = -order;
+        updateListHTML(list);
+    }
+
+    var sortVal = document.getElementById("val-sort");
+    sortVal.onclick = () => {
+        list = getListArray();
+        list = sortByVal(list, order);
+        order = -order;
+        updateListHTML(list);
+    }
+
 }
 
 /* ============================     ANALYSIS      =============================== */
@@ -183,20 +229,6 @@ var plotAnalysis = (datasets, label, axisStep) => {
     });
 }
 
-
-var parseDate = (dateString, precision=1) => {
-    let date = dateString.split('/').map(item => parseInt(item));
-    switch(precision) {
-        case 0:
-            return date[2];
-        case 1:
-            return date[2] * 100 + date[1];
-        case 2:
-            return (date[2] * 100 + date[1]) * 100 + date[0];
-        default:
-            return 0;
-    }
-}
 
 var monthToString = (month) => {
     switch(month) {
